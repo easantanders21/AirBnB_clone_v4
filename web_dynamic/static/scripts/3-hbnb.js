@@ -35,13 +35,10 @@ let amenity_dict = {};
 });
 
 function placeArticle (data) {
-  alert("entra a la funcion placearticle")
   for (const place of data) {
     $('section.places').append('<article><div class="title_box"><h2></h2><div class="price_by_night"></div></div><div class="information"><div class="max_guest"></div><div class="number_rooms"></div><div class="number_bathrooms"></div></div><div class="user"></div><div class="description"></div></article>');
-
     $('div.title_box h2').last().text(place.name);
     console.log(place.name);
-    alert(user.first_name)
     $('.price_by_night').last().text('$' + place.price_by_night);
     // number of Guests
     if (place.max_guest !== 1) {
@@ -61,6 +58,7 @@ function placeArticle (data) {
     } else {
       $('.number_bathrooms').last().text(`${place.number_bathrooms} Bathrooms`);
     }
+    $('.user').last().text(`Owner: ${place.Owner}`);
     // place Description
     $('.description').last().html(place.description);
   }

@@ -124,7 +124,8 @@ def places_search():
     Retrieves all Place objects depending of the JSON in the body
     of the request
     """
-
+    print("estoy en places")
+    list_users = storage.all(User)
     if request.get_json() is None:
         abort(400, description="Not a JSON")
 
@@ -139,12 +140,19 @@ def places_search():
             not states and
             not cities and
             not amenities):
+        print("estoy en el segundo if")
         places = storage.all(Place).values()
         list_places = []
         for place in places:
-            list_places.append(place.to_dict())
+            owner_key = "User.{}".format(place.user_id)
+            owner = list_users[owner_key]
+            name_owner = "{} {}".format(owner.first_name, owner.last_name)
+            print(name_owner)
+            place_dict = place.to_dict()
+            place_dict["Owner"] = name_owner
+            list_places.append(place_dict)
         return jsonify(list_places)
-
+    print("despues del segundo if")
     list_places = []
     if states:
         states_obj = [storage.get(State, s_id) for s_id in states]
@@ -171,9 +179,16 @@ def places_search():
                        if all([am in place.amenities
                                for am in amenities_obj])]
 
+
+    
     places = []
     for p in list_places:
         d = p.to_dict()
+        owner_key = "User.{}".format(p.user_id)
+        owner = list_users[owner_key]
+        name_owner = "{} {}".format(owner.fist_name, owner.last_name)
+        print(name_owner)
+        d["Owner"] = name_owner
         d.pop('amenities', None)
         places.append(d)
 
