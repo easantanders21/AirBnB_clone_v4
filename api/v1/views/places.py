@@ -186,8 +186,7 @@ def places_search():
         d = p.to_dict()
         owner_key = "User.{}".format(p.user_id)
         owner = list_users[owner_key]
-        name_owner = "{} {}".format(owner.fist_name, owner.last_name)
-        print(name_owner)
+        name_owner = "{} {}".format(owner.first_name, owner.last_name)
         d["Owner"] = name_owner
         d.pop('amenities', None)
         places.append(d)
